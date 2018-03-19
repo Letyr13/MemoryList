@@ -1,0 +1,15 @@
+<div ng-controller="authorizationController" class="center-block" style="margin-top: 20vh; text-align: center; width: 30vw;">
+    <p style="margin-bottom: 1rem; font-weight: bold;">Login to Memory List</p>
+    <div class="form-group text-left">
+        <label class="control-label" for="user" ng-class="{'text-danger': nameError}">Name:</label>
+        <input class="form-control" type="text" id="user" ng-model="name" ng-class="{'is-invalid': nameError}">
+        <span class="help-block"></span>
+    </div>
+    <div class="form-group text-left">
+        <label class="control-label" for="password" ng-class="{'text-danger': passwordError}">Password:</label>
+        <input class="form-control" type="password" id="password" ng-model="password" ng-class="{'is-invalid': passwordError}">
+        <span class=""></span>
+    </div>
+    <button type="button" class="btn btn-primary block" ng-click="login()">Login</button>
+    <button class="btn btn-link" style="margin: auto; margin-top: 1rem;">Create account</button>
+</div>

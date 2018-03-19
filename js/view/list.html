@@ -1,0 +1,15 @@
+<div ng-controller="listController" class="center-block" style="margin-top: 20vh; width: 50vw;">
+    <div class="text-center" style="border-bottom: solid black; margin-bottom: 1rem;">
+        <h1 class="">Hello, {{config.user}}!</h1>
+        <p class="">You have n uncompleted tasks</p>
+    </div>
+    <div style="border-bottom: solid black; margin-bottom: 1rem; padding-bottom: 1rem; overflow: hidden;">
+        <input type="text" class="form-control" style="float: left; width: calc(95% - 38px);" placeholder="Add new task" id="user">
+        <button type="button" class="btn" style="float: right;">+</button>
+    </div>
+    <div>
+        <div class="checkbox" style="padding: 10px 10px 10px 20px;">
+            <label><input type="checkbox" value="false">Some task</label>
+        </div>
+    </div>
+</div>
