@@ -1,15 +1,17 @@
-<div ng-controller="listController" class="center-block" style="margin-top: 20vh; width: 50vw;">
+<div ng-controller="listController" ng-keypress="onkey($event)" class="center-block list">
+    <button ng-click="logout()" type="button" class="btn" style="position: absolute; right: 10px; top: 10px;">Log out</button>
     <div class="text-center" style="border-bottom: solid black; margin-bottom: 1rem;">
-        <h1 class="">Hello, {{config.user}}!</h1>
-        <p class="">You have n uncompleted tasks</p>
+        <h1 ng-bind="'Hello, ' + user.username + '!'"></h1>
+        <div style="height: 2rem;" ng-bind="(user.tasks.length > 0) ? 'You have ' + user.tasks.length + ' uncompleted tasks' : ''"></div>
     </div>
     <div style="border-bottom: solid black; margin-bottom: 1rem; padding-bottom: 1rem; overflow: hidden;">
-        <input type="text" class="form-control" style="float: left; width: calc(95% - 38px);" placeholder="Add new task" id="user">
-        <button type="button" class="btn" style="float: right;">+</button>
+        <input ng-model="task" type="text" class="form-control" style="float: left; width: calc(100% - 38px - 1rem);" placeholder="Add new task" id="task">
+        <button ng-click="addTask(task)" type="button" class="btn" style="float: right;">+</button>
     </div>
-    <div>
-        <div class="checkbox" style="padding: 10px 10px 10px 20px;">
-            <label><input type="checkbox" value="false">Some task</label>
-        </div>
+    <div class="scrollbar" style="padding: 1rem 2rem;">
+        <label style="display: block;" ng-repeat="task in user.tasks track by $index">
+            <input ng-click="removeTask($index)" type="checkbox" value="false">
+            <span style="margin-left: 1rem;">{{task}}</span>
+        </label>
     </div>
 </div>

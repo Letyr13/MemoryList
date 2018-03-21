@@ -1,41 +1,57 @@
-angular.module(module_name)
-    .controller("authorizationController", ["$scope", "current", function($scope, current) {
-        $scope.current = current;
-
-        $scope.name = "";
+module
+    .controller("authorizationController", ["$scope", "$route", "session", "database", function($scope, $route, session, db) {
+        $scope.username = "";
         $scope.password = "";
+        var resetValidation = function () {
+            $scope.errorString = "";
+            $scope.nameError = $scope.passwordError = false;
+        };
+        resetValidation();
 
-        $scope.nameError = false;
-        $scope.passwordError = false;
-        $scope.checkAuthorization = function (name, password) {
-            // request to db
-            var registered_users = db.requestUsers();
+        // check for introduced data
+        var checkValidation = function () {
+            resetValidation();
+            $scope.passwordError = $scope.password === "";
+            $scope.nameError = $scope.username === "";
+            if ($scope.nameError && $scope.passwordError) {
+                $scope.errorString = "Please enter Username and Password!";
+                document.getElementById("userField").focus();
+            } else if ($scope.nameError) {
+                $scope.errorString = "Please enter Username!";
+                document.getElementById("userField").focus();
+            } else if ($scope.passwordError) {
+                $scope.errorString = "Please enter Password!";
+                document.getElementById("passwordField").focus();
+            }
+            return !($scope.passwordError || $scope.nameError);
+        };
 
-            // check if this user exist
-            for (var i = 0; i < registered_users.length; i++) {
-                if (registered_users[i].name === name && registered_users[i].password === password) {
-                    return registered_users[i];
+        $scope.onkey = function ($event) {
+            resetValidation();
+            if ($event.keyCode === 13) {
+                $scope.login();
+            }
+        };
+
+        $scope.createAccount = function () {
+            if (checkValidation()) {
+                if (!db.userExistRequest($scope.username)) {
+                    session.user = db.createUserRequest($scope.username, $scope.password);
+                    $route.reload();
+                } else {
+                    $scope.nameError = true;
+                    $scope.errorString = "User with same login already exist!";
                 }
             }
-            return null;
         };
 
         $scope.login = function () {
-            // check for introduced data
-            $scope.nameError = $scope.name === "";
-            $scope.passwordError = $scope.password === "";
-
-            // check for registration
-            if (!$scope.nameError && !$scope.passwordError && (current.user = $scope.checkAuthorization($scope.name, $scope.password))) {
-                // TODO save current user in cookie or something
-                // ...
-
-                // change url
-                // location.replace("index/list");
-                // TODO BUT I don't know how to run Index.html without .htaccess file
-
-                current.template = "js/view/list.html";
+            if (checkValidation()) {
+                if (session.user = db.userGetByNameAndPassRequest($scope.username, $scope.password)) {
+                    $route.reload();
+                } else {
+                    $scope.errorString = "Invalid login or password!";
+                }
             }
-
         };
     }]);

@@ -1,15 +1,12 @@
-<div ng-controller="authorizationController" class="center-block" style="margin-top: 20vh; text-align: center; width: 30vw;">
-    <p style="margin-bottom: 1rem; font-weight: bold;">Login to Memory List</p>
+<div ng-controller="authorizationController" ng-keydown="onkey($event)" class="center-block auth">
+    <p style="margin-bottom: 3rem; font-weight: bold;">Login to Memory List</p>
     <div class="form-group text-left">
-        <label class="control-label" for="user" ng-class="{'text-danger': nameError}">Name:</label>
-        <input class="form-control" type="text" id="user" ng-model="name" ng-class="{'is-invalid': nameError}">
-        <span class="help-block"></span>
+        <input ng-class="{'is-invalid': nameError}" ng-model="username" class="form-control" type="text" placeholder="Enter Username" id="userField" autofocus>
     </div>
     <div class="form-group text-left">
-        <label class="control-label" for="password" ng-class="{'text-danger': passwordError}">Password:</label>
-        <input class="form-control" type="password" id="password" ng-model="password" ng-class="{'is-invalid': passwordError}">
-        <span class=""></span>
+        <input ng-class="{'is-invalid': passwordError}" ng-model="password" class="form-control" type="password" placeholder="Enter Password" id="passwordField">
     </div>
-    <button type="button" class="btn btn-primary block" ng-click="login()">Login</button>
-    <button class="btn btn-link" style="margin: auto; margin-top: 1rem;">Create account</button>
+    <p class="text-danger text-left" ng-bind="errorString"></p>
+    <button ng-click="login()" type="button" class="btn btn-primary block">Login</button>
+    <button ng-click="createAccount()" class="btn btn-link" style="margin: 1rem auto;">Create account</button>
 </div>
